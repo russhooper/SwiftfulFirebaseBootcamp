@@ -8,11 +8,24 @@
 import SwiftUI
 
 struct ProductCellViewBuilder: View {
+    
+    let productID: String
+    @State private var product: Product? = nil
+    
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        ZStack {
+            if let product {
+                ProductCellView(product: product)
+
+            }
+        }
+        .task {
+            self.product = try? await ProductsManager.shared.getProduct(productID: productID)
+        }
+
     }
 }
 
 #Preview {
-    ProductCellViewBuilder()
+    ProductCellViewBuilder(productID: "1")
 }
